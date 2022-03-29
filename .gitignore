@@ -1,0 +1,9 @@
+*.zip
+*.mp4
+*.mp3
+*.flv
+*.xml
+*.txt
+PKG-INFO
+__pycache__/
+build/
