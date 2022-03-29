@@ -42,7 +42,7 @@ you can download zip data from following link
 ```url
 http://online.GGGGG.com/p81var0hcdk5/output/ClassName.zip?download=zip
 ```
-
+Then extract the zip in 'data' directory and install AdobeConnect2Video from pip
 ```shell
 $ AdobeConnect2Video
 
@@ -63,7 +63,7 @@ usage: AdobeConnect2Video [-h] -i ID [-d DATA_PATH] [-o OUTPUT_PATH] [-r RESOLUT
 
 options:
   -h   --help          show this help message and exit
-  -i   --id ID         the name of directory data is available
+  -i   --id            the name of directory data is available
   -d   --data-path     the path extracted data must be available as directory
   -o   --output-path   the output path that generated data saved
   -r   --resolution    the resolution of output video
