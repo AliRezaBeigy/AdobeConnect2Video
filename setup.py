@@ -20,6 +20,9 @@ setup(
         'AdobeConnect2Video': ["no_video.jpg"]
     },
     python_requires=">=3.6",
+    install_requires=[
+        'untangle',
+    ]
     platforms=["nt", "posix"],
     long_description=long_description,
     packages=setuptools.find_packages(),
