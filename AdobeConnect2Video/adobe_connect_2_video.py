@@ -60,7 +60,7 @@ def generateVideo(data_path, output_path, video_streams, audio_path, resolution,
         duration = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
                              "format=duration", "-of",
                              "default=noprint_wrappers=1:nokey=1", filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout
-        inputs.append(f'-t {video_stream.end_time - video_stream.start_time}ms -i {os.path.join(data_path, video_stream.name)}.flv')
+        inputs.append(f'-t {video_stream.end_time - video_stream.start_time}ms -i {filename}')
         time = video_stream.start_time + (float(duration) * 1000)
 
     output_file = os.path.join(output_path, "video.mp4")
