@@ -1,6 +1,7 @@
 import os
 import argparse
 import untangle
+import subprocess
 from .utilities import execute_ffmpeg, isMethod, isString, Struct
 
 def extractMetadata(data_path):
@@ -50,9 +51,13 @@ def generateVideo(data_path, output_path, video_streams, audio_path, resolution)
             output_file = os.path.join(output_path, video_stream.name + "_blank.mp4")
             final_videos.append(output_file)
             inputs.append(f'-loop 1 -t {no_video_duration}ms -i {no_video_path}')
-        final_videos.append(f'{os.path.join(data_path, video_stream.name)}.flv')
+        filename = f'{os.path.join(data_path, video_stream.name)}.flv'
+        final_videos.append(filename)
+        duration = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
+                             "format=duration", "-of",
+                             "default=noprint_wrappers=1:nokey=1", filename], stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout
         inputs.append(f'-t {video_stream.end_time - video_stream.start_time}ms -i {os.path.join(data_path, video_stream.name)}.flv')
-        time = video_stream.end_time
+        time = video_stream.start_time + (float(duration) * 1000)
 
     output_file = os.path.join(output_path, "video.mp4")
     video_maps_1 = map(lambda i: f"[{i[0] + 1}:v]scale={resolution},setpts=PTS-STARTPTS[v{i[0]}];", enumerate(final_videos))
@@ -73,6 +78,7 @@ def main():
     parser.add_argument(
         "-r", "--resolution", type=str, required=False, help="the resolution of output video", default='1920:1880'
     )
+    # TODO repair mode -- rerender the screen share to fix duration issue
     args = parser.parse_args()
     
     video_id = args.id
