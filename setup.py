@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="AdobeConnect2Video",
-    version="1.0.1",
+    version="1.0.2",
     license="MIT",
     author="AliReza Beigy",
     author_email="AliRezaBeigyKhu@gmail.com",
@@ -22,7 +22,7 @@ setup(
     python_requires=">=3.6",
     install_requires=[
         'untangle',
-    ]
+    ],
     platforms=["nt", "posix"],
     long_description=long_description,
     packages=setuptools.find_packages(),
