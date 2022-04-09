@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="AdobeConnect2Video",
-    version="1.1.1",
+    version="1.2.0",
     license="MIT",
     author="AliReza Beigy",
     author_email="AliRezaBeigyKhu@gmail.com",

@@ -40,7 +40,7 @@ def generateAudio(data_path, output_path, audio_streams):
 
     return audio_output_file
 
-def generateVideo(data_path, output_path, video_streams, audio_path, resolution):
+def generateVideo(data_path, output_path, video_streams, audio_path, resolution, repair_mode):
     time = 0
     final_videos = []
     inputs = [f"-i {audio_path}"]
@@ -52,6 +52,10 @@ def generateVideo(data_path, output_path, video_streams, audio_path, resolution)
             final_videos.append(output_file)
             inputs.append(f'-loop 1 -t {no_video_duration}ms -i {no_video_path}')
         filename = f'{os.path.join(data_path, video_stream.name)}.flv'
+        if repair_mode:
+            rapaired_filename = f'{os.path.join(data_path, video_stream.name)}_repaired.flv'
+            execute_ffmpeg(f'-i {filename} {rapaired_filename}')
+            filename = rapaired_filename
         final_videos.append(filename)
         duration = subprocess.run(["ffprobe", "-v", "error", "-show_entries",
                              "format=duration", "-of",
@@ -78,7 +82,9 @@ def main():
     parser.add_argument(
         "-r", "--resolution", type=str, required=False, help="the resolution of output video", default='1920:1880'
     )
-    # TODO repair mode -- rerender the screen share to fix duration issue
+    parser.add_argument(
+        "-p", "--repair", type=bool, required=False, help="repair screen share video", action=argparse.BooleanOptionalAction
+    )
     args = parser.parse_args()
     
     video_id = args.id
@@ -99,7 +105,7 @@ def main():
 
     (audio_streams, video_streams) = extractMetadata(data_path)
     audio_path = generateAudio(data_path, output_path, audio_streams)
-    generateVideo(data_path, output_path, video_streams, audio_path, args.resolution)
+    generateVideo(data_path, output_path, video_streams, audio_path, args.resolution, args.repair)
 
     print("[+] Done!")
 

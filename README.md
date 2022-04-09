@@ -54,6 +54,10 @@ If data extracted into 'Course1' directory inside 'data' directory and you want 
 ```shell
 $ AdobeConnect2Video -i Course1 -d data -o output -r 480x470
 ```
+If there is any timing issue use ```--repair``` option to repair the video
+```shell
+$ AdobeConnect2Video -i Course1 -d data -o output -r 480x470 --repair
+```
 
 For more details:
 
@@ -67,6 +71,7 @@ options:
   -d   --data-path     the path extracted data must be available as directory
   -o   --output-path   the output path that generated data saved
   -r   --resolution    the resolution of output video
+  -p   --repair    repair screen share video
 ```
 
 ## Contributions
