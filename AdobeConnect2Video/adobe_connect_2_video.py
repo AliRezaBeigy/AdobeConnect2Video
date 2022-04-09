@@ -18,11 +18,9 @@ def extractMetadata(data_path):
             stream.name = message.Array.Object.streamName.cdata.lstrip('/')
             stream.start_time = int(message.Array.Object.startTime.cdata)
 
-            stream_metadata = untangle.parse(data_path + f'/{stream.name}.xml')
-
-            if 'video' in stream_metadata.root.Flag.cdata:
+            if 'screenshare' in stream.name:
                 video_streams.append(stream)
-            elif 'audio' in stream_metadata.root.Flag.cdata:
+            elif 'cameraVoip' in stream.name:
                 audio_streams.append(stream)
         if isMethod(message, "playEvent") and isString(message, "streamRemoved"):
             stream = next(filter(lambda stream: stream.name == message.Array.Object.streamName.cdata.lstrip('/'), audio_streams + video_streams), None)
